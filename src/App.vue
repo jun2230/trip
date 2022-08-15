@@ -8,6 +8,9 @@
 <script setup>
 
 import tabbar from "@/components/tabbar/tabbar.vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute()
 
 </script>
 

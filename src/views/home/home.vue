@@ -1,25 +1,19 @@
 <!-- home  -->
-
-  components: { homeNavBar },<template>
+<template>
   <div class="home">
     <home-nav-bar></home-nav-bar>
     <div class="banner">
-      <img src="@/assets/img/home/banner.webp" />
+      <img src="@/assets/img/home/banner.webp" alt=""/>
     </div>
-    <div class="location">
-      <div class="city">广州</div>
-      <div class="position">
-        <span class="text">我的位置</span>
-        <img src="@/assets/img/home/icon_location.png"/>
-      </div>
-    </div>
+    <home-search-box></home-search-box>
+    
   </div>
 </template>
 
 <script setup>
 
 import homeNavBar from './cpns/home-nav-bar.vue';
-import homeNavBarVue from './cpns/home-nav-bar.vue';
+import homeSearchBox from './cpns/home-search-box.vue';
 </script>
 
 <style lang='less' scoped>
@@ -32,37 +26,7 @@ import homeNavBarVue from './cpns/home-nav-bar.vue';
     }
   }
 
-  .location {
-    display: flex;
-    align-items: center;
-    height: 44px;
-    padding: 0 20px;
-
-    .city {
-      flex: 1;
-    }
-
-    .position {
-      width: 74px;
-      display: flex;
-      align-items: center;
-      
-      .text {
-        position: relative;
-        top: 2px;
-        font-size: 12px;
-      }
-
-
-      img {
-        width: 18px;
-        height: 18px;
-        margin-left: 5px;
-      }
-    }
-
-    
-  }
+  
 
 }
 </style>
