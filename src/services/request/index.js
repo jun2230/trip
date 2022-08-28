@@ -1,17 +1,31 @@
 import axios from "axios";
-// import { useLoadingStore } from "@/store/modules/loading";
+import useMainStore from "@/stores/modules/main";
 import { baseURL, TIMEOUT } from "./config";
-// const loadingStore = useLoadingStore();
+
+const mainStore = useMainStore()
 class HYRequest {
   constructor(baseURL) {
     this.instance = axios.create({
       baseURL,
       timeout: TIMEOUT,
     });
+
+    this.instance.interceptors.request.use(config => {
+      mainStore.isLoading = false
+      return config
+    }, err => {
+      return err
+    })
+    this.instance.interceptors.response.use(res => {
+      mainStore.isLoading = false
+      return res
+    }, err => {
+      mainStore.isLoading = false
+      return err
+    })
   }
 
   request(config) {
-    // loadingStore.changeLoading(true);
     return new Promise((resolve, reject) => {
       this.instance
         .request(config)

@@ -1,7 +1,8 @@
 <template>
   <div class="id">
     <router-view></router-view>
-    <tabbar></tabbar>
+    <tabbar v-if="!route.meta.hideTabBar"></tabbar>
+    <Loading></Loading>
   </div>
 </template>
 
@@ -9,6 +10,7 @@
 
 import tabbar from "@/components/tabbar/tabbar.vue";
 import { useRoute } from "vue-router";
+import Loading from "./components/loading/index.vue";
 
 const route = useRoute()
 

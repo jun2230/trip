@@ -14,14 +14,14 @@
       <div class="start">
         <div class="date">
           <span class="tip">入住</span>
-          <span class="time" @click="dateClick"> {{startDate}} </span>
+          <span class="time" @click="dateClick"> {{startDateStr}} </span>
         </div>
         <div class="stay">共{{stayCount}}晚</div>
       </div>
       <div class="end">
         <div class="date">
           <span class="tip">离店</span>
-          <span class="time" @click="dateClick"> {{endDate}} </span>
+          <span class="time" @click="dateClick"> {{endDateStr}} </span>
         </div>
       </div>
     </div>
@@ -45,7 +45,7 @@
     </div>
 
     <div class="item search-btn">
-      <div class="btn" @click="startSearch">开始搜索</div>
+      <div class="btn" @click="searchBtnClick">开始搜索</div>
     </div>
 
   </div>
@@ -56,8 +56,9 @@ import useCityStore from '@/stores/modules/city';
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
 import { formatMonthDay, getDiffDays } from '@/utils/format_date'
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import useHomeStore from "@/stores/modules/home"
+import useMainStore from '@/stores/modules/main';
 
 const router = useRouter()
 
@@ -91,10 +92,14 @@ const cityStore = useCityStore()
 const { currentCity } = storeToRefs(cityStore)
 
 // 日期范围处理
+const mainStore = useMainStore()
+const { startDate, endDate } = storeToRefs(mainStore)
+
 const nowDate = new Date()
 const newDate = nowDate.setDate(nowDate.getDate() + 1)
-const startDate = ref(formatMonthDay(nowDate))
-const endDate = ref(formatMonthDay(nowDate.setDate(nowDate.getDate() + 1)))
+
+const startDateStr = computed(() =>  formatMonthDay(startDate.value))
+const endDateStr = computed(() => formatMonthDay(endDate.value))
 
 const stayCount = ref(getDiffDays(newDate, nowDate ))
 
@@ -104,8 +109,8 @@ const showCalendar = ref(false)
 const onConfirm = (value) => {
   const selectStarDate = value[0]
   const selectEndDate = value[1]
-  startDate.value = formatMonthDay(selectStarDate)
-  endDate.value = formatMonthDay(selectEndDate)
+  mainStore.startDate = selectStarDate
+  mainStore.endDate = selectEndDate
   stayCount.value = ref(getDiffDays(selectStarDate, selectEndDate))
   showCalendar.value = false
 }
@@ -118,6 +123,17 @@ const dateClick = () => {
 // 热门建议
 const homeStore = useHomeStore()
 const { hotSuggests } = storeToRefs(homeStore)
+
+// 开始搜索
+const searchBtnClick = () => {
+  router.push({
+    path: '/search',
+    query: {
+      startDate: startDate.value, 
+      endDate: endDate.value,
+      currentCity: currentCity.value.cityName
+    }})
+}
 
 </script>
 
