@@ -11,7 +11,7 @@ class HYRequest {
     });
 
     this.instance.interceptors.request.use(config => {
-      mainStore.isLoading = false
+      mainStore.isLoading = true
       return config
     }, err => {
       return err
