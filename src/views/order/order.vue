@@ -1,11 +1,12 @@
 <!-- order  -->
 <template>
   <div class="order">
-    <h2>order</h2>
+    <NavBar title="订单列表"/>
   </div>
 </template>
 
 <script setup>
+import NavBar from "@/components/navbar/index.vue"
 
 </script>
 
